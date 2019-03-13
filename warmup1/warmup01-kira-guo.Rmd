@@ -1,0 +1,83 @@
+---
+title: "warmup01-kira-guo"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#1. Star Wars
+> "When I left you I was but the learner. Now I am the master." - Darth Vader
+
+![](https://spacequotations.com/wp-content/uploads/2018/09/darth-vader-pose.jpg)
+
+
+|Description  |Value                |
+|-------------|---------------------|
+|Species      |Human                |
+|Occupation   |Dark Lord of the Sith|
+|Gender       |Male                 |
+|Eye Color    |Yellow               |
+
+#2. [Cooking Recipe](https://smittenkitchen.com/2011/01/baked-potato-soup/)
+*original website hyperlinked*
+
+###Ingredients:
+
+* 1 head garlic
+* 3 tablespoons unsalted butter
+* 2 medium leeks
+* 5 to 6 cups low-sodium chicken or vegetable broth 
+* 2 bay leaves
+* Table salt
+* 2 1/2 pounds russet potatoes
+* 1/3 cup sour cream
+* Ground black pepper
+
+###Special Tools:
+
+* InstantPot
+* Electric pressure cooker
+
+###Steps:
+*In an InstantPot or electric pressure cooker:* 
+
+1. Use the sauté function to melt the butte, add the leeks, and then cook them until soft (but not brown), about 5 minutes. 
+2. Add the minced garlic and cook another minute. Add the larger part of the garlic head (whole, not chopped), broth, bay leaves and 3/4 teaspoon salt. 
+3. Cancel out the sauté function and select the soup/broth function; cook for 10 minutes at high pressure, then manually release the pressure.
+4. Add the potatoes to the pot, select the soup/broth function again, and cook for 5 more minutes at high pressure. Let it release naturally for 15 minutes, then manually release the pressure the rest of the way.
+
+![](https://smittenkitchendotcom.files.wordpress.com/2011/01/baked-potato-soup.jpg?w=1502)
+
+###Special Season?
+There is not a special season of the year for it! Cook and eat whenever you want
+
+###Variation of the receipt: 
+On the stovetop: In a large, heavy pot or Dutch oven, melt the butter over medium heat. Add leeks and cook them until soft (but not brown), about 5 minutes. Add the minced garlic and cook another minute. Add the larger part of the garlic head (whole, not chopped), broth, bay leaves and 3/4 teaspoon salt. Reduce heat and simmer until garlic is very tender when pierced with tip of knife, 30 to 40 minutes. Add potatoes and continue to simmer, partially covered, until potatoes are tender, about 15 to 20 minutes.
+
+#3. Euclidean Distance
+###Definition
+
+------
+
+The **Euclidean distance** between points **p** and **q** is the length of the line segment connecting them ($\overline{\textbf{pq}}$). 
+
+\newline In Cartesian coordiantes, if $p = (p_{1},p_{2},...,p_{n})$ and $q = (q_{1},q_{2},...,q_{n})$ are two points in Euclidean *n*-space, then the distance (d) from **p** to **q**, or from **q** to **p** is given by the Pythagorean formula: 
+
+\newline 
+$$
+\begin{aligned}
+d(\textbf{p},\textbf{q}) = d(\textbf{q},\textbf{p})
+&= \sqrt{(q_{1} - p_{1})^2 + (q_{2} - p_{2})^2 + ... + (q_{n} - p_{n})^2} \\
+&= \sqrt{\sum_{i=1}^n(q_{i} - p_{1})^2 }.
+\end{aligned}
+$$
+
+\newline The position of a point in a Euclidean *n*-space is a Euclidean vector. So, **p** and **q** may be represented as Euclidean vectors, starting from the origin of the space (intial point) with their tips (terminal points) ending at the two points. The **Euclidean norm**, or **Euclidean length**, or **magnitude** of a vector measures the length of the vector:
+
+\newline 
+$$\|\textbf{p}|| = \sqrt{p_{1}^2 + p_{2}^2 + ... +p_{n}^2} = \sqrt{\textbf{p} \cdot \textbf{q}},$$
+
+\newline where the last expression involves the dot product.
+
+
