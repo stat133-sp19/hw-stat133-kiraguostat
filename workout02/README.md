@@ -1,0 +1,1 @@
+The purpose of this assignment is to create a shiny app that visualizes some saving / investing scenarios in a interactive way.
