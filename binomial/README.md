@@ -27,6 +27,59 @@ basic functions of binomial distribution.
 -   `bin_varisummary.binvarable()` show the summary of `bin_variable`
     object.
 
+Motivation
+----------
+
+The package is used to perform basic calculations of binomial variables.
+
+Installation
+------------
+
+    # development version from GitHub:
+    #install.packages("devtools") 
+
+    # install "binomial" (without vignettes)
+    devtools::install_github("stat133-sp19/hw-stat133-kiraguostat/binomial")
+
+    ## Downloading GitHub repo stat133-sp19/hw-stat133-kiraguostat@master
+
+    ##   
+       checking for file ‘/private/var/folders/_h/v7gscv9d4vgc595s6m6vgw3r0000gn/T/RtmpMzdXqM/remotes1f52773c1e7a/stat133-sp19-hw-stat133-kiraguostat-0dab9b5/binomial/DESCRIPTION’ ...
+      
+    ✔  checking for file ‘/private/var/folders/_h/v7gscv9d4vgc595s6m6vgw3r0000gn/T/RtmpMzdXqM/remotes1f52773c1e7a/stat133-sp19-hw-stat133-kiraguostat-0dab9b5/binomial/DESCRIPTION’
+    ## 
+      
+    ─  preparing ‘binomial’:
+    ## 
+      
+    ✔  checking DESCRIPTION meta-information
+    ## 
+      
+    ─  excluding invalid files
+    ## 
+      
+       Subdirectory 'R' contains invalid file names:
+    ##      ‘.RData’
+    ## 
+      
+    ─  checking for LF line-endings in source and make files and shell scripts
+    ## 
+      
+    ─  checking for empty or unneeded directories
+    ## 
+      
+    ─  building ‘binomial_0.1.0.tar.gz’
+    ## 
+      
+       
+    ## 
+
+    # install "binomial" (with vignettes)
+    devtools::install_github("stat133-sp19/hw-stat133-kiraguostat/binomial", build_vignettes = TRUE)
+
+    ## Skipping install of 'binomial' from a github remote, the SHA1 (0dab9b5a) has not changed since last install.
+    ##   Use `force = TRUE` to force installation
+
 Usage
 -----
 
@@ -48,7 +101,7 @@ Usage
 
     plot(bin_distribution(3, 0.5))
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
 
     bin_cumulative(3, 0.5)
 
@@ -60,7 +113,7 @@ Usage
 
     plot(bin_cumulative(3, 0.5))
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-2.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-2-2.png)
 
     bin_variable(3, 0.5)
 

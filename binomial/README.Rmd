@@ -14,7 +14,6 @@ library(ggplot2)
 
 
 ## Overview
-
 `"binomial"` is a minimal package 
 that provides functions to execute basic functions of binomial distribution.
 
@@ -32,6 +31,22 @@ that provides functions to execute basic functions of binomial distribution.
 * `print.binvar()` print the `bin_variable` object.
 * `print.summary.binvar()` print the summary of `bin_variable` object.
 * `bin_varisummary.binvarable()` show the summary of `bin_variable` object.
+
+## Motivation
+The package is used to perform basic calculations of binomial variables.
+
+##Installation
+```{r}
+# development version from GitHub:
+#install.packages("devtools") 
+
+# install "binomial" (without vignettes)
+devtools::install_github("stat133-sp19/hw-stat133-kiraguostat/binomial")
+
+# install "binomial" (with vignettes)
+devtools::install_github("stat133-sp19/hw-stat133-kiraguostat/binomial", build_vignettes = TRUE)
+```
+
 
 ## Usage
 ```{r}
