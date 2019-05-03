@@ -1,0 +1,52 @@
+---
+title: "binomial"
+author: "kira guo"
+date: "May 2, 2019"
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(binomial)
+library(ggplot2)
+```
+
+
+
+## Overview
+
+`"binomial"` is a minimal package 
+that provides functions to execute basic functions of binomial distribution.
+
+* `bin_choose()` computes the number of success given trials.
+* `bin_cumulative()` compute cumulative distribution given trials and success probability.
+* `bin_distribution()` compute distribution given trials and success probability.
+* `bin_kurtosis()` compute kurtosis given trials and success probability.
+* `bin_mean()` compute mean given trials and success probability.
+* `bin_mode()` compute mode given trials and success probability.
+* `bin_probability()` compute probability given sucess, trials and success probability.
+* `bin_skewness()` compute skewness given trials and success probability.
+* `bin_variable()` show variables of trials and success probability.
+* `bin_variance()` compute variance given trials and success probability.
+* `plot.bincum()` plot the cumulatative distribution given trials and success probability.
+* `print.binvar()` print the `bin_variable` object.
+* `print.summary.binvar()` print the summary of `bin_variable` object.
+* `bin_varisummary.binvarable()` show the summary of `bin_variable` object.
+
+## Usage
+```{r}
+bin_choose(3, 2)
+bin_probability(2, 3, 0.5)
+bin_distribution(3, 0.5)
+plot(bin_distribution(3, 0.5))
+bin_cumulative(3, 0.5)
+plot(bin_cumulative(3, 0.5))
+bin_variable(3, 0.5)
+summary(bin_variable(3, 0.5))
+bin_mean(3, 0.5)
+bin_variance(3, 0.5)
+bin_mode(3, 0.5)
+bin_kurtosis(3, 0.5)
+bin_skewness(3, 0.5)
+```
+
