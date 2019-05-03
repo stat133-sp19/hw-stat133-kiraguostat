@@ -1,0 +1,293 @@
+#   Build and Reload Package:  'Cmd + Shift + B'
+#   Check Package:             'Cmd + Shift + E'
+#   Test Package:              'Cmd + Shift + T'
+
+library(ggplot2)
+library(devtools)
+library(dplyr)
+
+# private function to check if an input prob is a valid probability value
+check_prob <- function(prob) {
+  if (length(prob) != 1) {
+    stop("invalid prob value")
+  } else if (!is.numeric(prob)) {
+    stop("invalid prob value")
+  } else if (prob > 1 | prob < 0) {
+    stop("p has to be a number betwen 0 and 1")
+  } else {
+    return(TRUE)
+  }
+}
+
+# private function to check if an input trials is a non-negative integer
+check_trials <- function(trials) {
+  if (!is.numeric(trials)) {
+    stop("invalid trials value")
+  } else if (trials >= 0 & trials %% 1 == 0) {
+    return(TRUE)
+  } else {
+    stop("invalid trials value")
+  }
+}
+
+# private function to check if an input success is valid
+check_success <- function(success, trials) {
+  if (length(trials) != 1) {
+    stop("invalid trials value")
+  } else if (!is.numeric(success))
+    stop("invalid success value")
+  else if (any(success < 0)) {
+    stop("invalid success value")
+  } else if (any(success %% 1 != 0)) {
+    stop("invalid success value")
+  } else if (any(success > trials)) {
+    stop("success cannot be greater than trials")
+  }
+  return(TRUE)
+}
+
+# private function to compute the mean
+aux_mean <- function(trials, prob) {
+  return (trials * prob)
+}
+
+# private function to compute the variance
+aux_variance <- function(trials, prob) {
+  return (trials * prob * (1 - prob))
+}
+
+# private function to compute the mode
+aux_mode <- function(trials, prob) {
+  return (as.integer(prob + prob * trials))
+}
+
+# private function to compute the skewness
+aux_skewness <- function(trials, prob) {
+  return((1-2*prob)/sqrt(trials*prob*(1-prob)))
+}
+
+# private function to compute the kurtosis
+aux_kurtosis <- function(trials, prob) {
+  return((1-6*prob*(1-prob))/(trials*prob*(1-prob)))
+}
+
+#' @title Number of Success
+#' @description to calculate the number of combinations in which k successes can occur in n trials
+#' @param n number of trials
+#' @param k number of successes
+#' @return number of successes can occur in n trials
+#' @examples
+#' bin_choose(n = 5, k = 2)
+#' bin_choose(5, 0)
+#' bin_choose(5, 1:3)
+#' @export
+bin_choose <- function(n, k) {
+  if (k > n) {
+    stop("k cannot be greater than n")
+  } else {
+    return(factorial(n) / (factorial(k) * factorial(n - k)))
+  }
+}
+
+#' @title Probability of Success
+#' @description to calculate the probability of a certian number of successes in n trials
+#' @param n number of trials
+#' @param k number of successes
+#' @param p probability of success
+#' @return probability of a certian number of successes in n trials
+#' @examples
+#' bin_probability(2, 5, 0.5)
+#' bin_probability(0:2, 5, 0.5)
+#' bin_probability(55, 100, 0.45)
+#' @export
+bin_probability <- function(k, n, p) {
+  check_trials(n)
+  check_prob(p)
+  check_success(k, n)
+  return(bin_choose(n, k)*p^k*(1-p)^(n-k))
+}
+
+#' @title Probability Distribution
+#' @description to create a dataframe of the binomial distribution
+#' @param n number of trials
+#' @param p probability of success
+#' @return a data frame with the probability distribution
+#' @examples
+#' bin_distribution(5, 0.5)
+#' @export
+bin_distribution <- function(n, p) {
+  success <- c(0:n)
+  probs <- length(n)
+  for (k in 0:n) {
+    probs[k+1] <- bin_probability(k, n, p)
+  }
+  df <- data.frame(success = success, probability = probs)
+  class(df) <- c("bindis", "data.frame")
+  return(df)
+}
+
+#' @export
+plot.bindis <- function(df) {
+  ggplot(df, aes(x = success, y = probability)) +
+    geom_bar(stat="identity", color = "grey") +
+    theme_minimal()
+}
+
+#' @title Cumulative probabilities
+#' @description to create a dataframe of the binomial distribution
+#' @param n number of trials
+#' @param p probability of success
+#' @return a data frame with the probability distribution
+#' @examples
+#' bin_cumulative(trials = 5, prob = 0.5)
+#' @export
+
+bin_cumulative <- function(n, p) {
+  success <- c(0:n)
+  probability <- c()
+  cumulative <- c()
+  for (k in 0:n) {
+    probability[k+1] <- bin_probability(k, n, p)
+    cumulative[k+1] <- sum(probability[0:k+1])
+  }
+  df <- data.frame("success" = success,
+                   "probability" = probability,
+                   "cumulative" = cumulative)
+  class(df) <- c("bincum", "data.frame")
+  return(df)
+}
+
+#' @export
+plot.bincum <- function(df) {
+  ggplot(df, aes(x=success, y=cumulative)) +
+    geom_path(stat = "identity", color="grey") +
+    geom_point() + ylab("probability") +
+    theme_minimal()
+}
+
+#' @title Binomial Random Variable
+#' @description to create an ojbect of class binvar
+#' @param n number of trials
+#' @param p probability of success
+#' @return a list with named elements trials and prob
+#' @examples
+#' bin_variable(trials = 10, prob = 0.3)
+#' @export
+bin_variable <- function(n, p) {
+  check_trials(n)
+  check_prob(p)
+  retVal <- (list("trial" = n, "prob" = p))
+  class(retVal) <- "binvar"
+  return(retVal)
+}
+
+#' @export
+print.binvar <- function(x, ...) {
+  cat('"Binomial variable"\n\n')
+  cat('Parameters\n')
+  cat('- number of trials:', x$trials)
+  cat("\n")
+  cat('- prob of success:', x$prob)
+}
+
+#' @export
+summary.binvar <- function(x, ...) {
+  lst <- list(
+    trials = x$trials,
+    prob = x$prob,
+    mean = aux_mean(x$trials, x$prob),
+    variance = aux_variance(x$trials, x$prob),
+    mode = aux_mode(x$trials, x$prob),
+    skewness = aux_skewness(x$trials, x$prob),
+    kurtosis = aux_kurtosis(x$trials, x$prob)
+  )
+  class(lst) <- "summary.binvar"
+  return(lst)
+}
+
+#' @export
+print.summary.binvar <- function(x, ...) {
+  cat('"Summary Binomial"\n\n')
+  cat('Parameters\n')
+  cat(sprintf('- number of trials: %s\n', x$trials))
+  cat(sprintf('- prob of success: %s\n\n', x$prob))
+  cat('Measures\n')
+  cat(sprintf('- mean: %s\n', x$mean))
+  cat(sprintf('- variance: %s\n', x$variance))
+  cat(sprintf('- mode: %s\n', x$mode))
+  cat(sprintf('- skewness: %s\n', x$skewness))
+  cat(sprintf('- kurtosis: %s\n', x$kurtosis))
+  invisible(x)
+}
+
+
+#' @title binomial mean
+#' @description to compute the mean of a binomial distribution
+#' @param n number of trials
+#' @param p probability of success
+#' @return computed mean
+#' @examples
+#' bin_mean(trials = 10, prob = 0.3)
+#' @export
+bin_mean <- function(n, p) {
+  check_trials(n)
+  check_prob(p)
+  return(aux_mean(n, p))
+}
+
+#' @title binomial variance
+#' @description to compute the variance of a binomial distribution
+#' @param n number of trials
+#' @param p probability of success
+#' @return computed variance
+#' @examples
+#' bin_variance(trials = 10, prob = 0.3)
+#' @export
+bin_variance <- function(n, p) {
+  check_trials(n)
+  check_prob(p)
+  return(aux_variance(n, p))
+}
+
+#' @title binomial mode
+#' @description to compute the mode of a binomial distribution
+#' @param n number of trials
+#' @param p probability of success
+#' @return computed mode
+#' @examples
+#' bin_mode(trials = 10, prob = 0.3)
+#' @export
+bin_mode <- function(n, p) {
+  check_trials(n)
+  check_prob(p)
+  return(aux_mode(n, p))
+}
+
+#' @title binomial skewness
+#' @description to compute the skewness of a binomial distribution
+#' @param n number of trials
+#' @param p probability of success
+#' @return computed skewness
+#' @examples
+#' bin_skewness(trials = 10, prob = 0.3)
+#' @export
+bin_skewness <- function(n, p) {
+  check_trials(n)
+  check_prob(p)
+  return(aux_skewness(n, p))
+}
+
+
+#' @title binomial kurtosis
+#' @description to compute the kurtosis of a binomial distribution
+#' @param n number of trials
+#' @param p probability of success
+#' @return computed kurtosis
+#' @examples
+#' bin_kurtosis(trials = 10, prob = 0.3)
+#' @export
+bin_kurtosis <- function(n, p) {
+  check_trials(n)
+  check_prob(p)
+  return(aux_kurtosis(n, p))
+}
